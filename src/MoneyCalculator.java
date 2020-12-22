@@ -1,10 +1,9 @@
-import java.io.BufferedReader;
+import model.Currency;
+import model.CurrencyList;
+import model.ExchangeRate;
+import model.Money;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -15,7 +14,7 @@ public class MoneyCalculator {
     public static void main(String[] arg) throws IOException {
         MoneyCalculator money = new MoneyCalculator();
         money.control();
-        
+
 
     }
 
