@@ -1,9 +1,10 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -17,10 +18,17 @@ public class MoneyCalculator {
 
     }
 
-    double amount;
-    double exchageRate;
-    String currencyfrom;
-    String currencyTo;
+
+    private ExchangeRate exchageRate;
+    private Money money;
+    private Currency currencyTo;
+    private CurrencyList currencies = new CurrencyList();
+
+    public MoneyCalculator() {
+        currencies.add(new Currency("USD","Dolar americano","$"));
+        currencies.add(new Currency("EUR","Euro", "€"));
+        currencies.add(new Currency("GBP","Libra esterlina", "£"));
+    }
 
     private void control() throws IOException {
         input();
@@ -31,32 +39,25 @@ public class MoneyCalculator {
     private void input() {
         System.out.print("introduzca una cantidad en dolares: ");
         Scanner scanner = new Scanner(System.in);
-        amount = Double.parseDouble(scanner.next());
+        double amount = Double.parseDouble(scanner.next());
         System.out.print("introduzca divisa origen ");
-        currencyfrom = scanner.next();
+        money = new Money(amount,currencies.get(scanner.next()));
         System.out.print("introduzca divisa destino ");
-        currencyTo = scanner.next();
+        currencyTo = currencies.get(scanner.next());
 
     }
 
     private void process() throws IOException {
-        exchageRate = getExchangeRate(currencyfrom, currencyTo);
+        exchageRate = new ExchangeRate(money.getCurrency(),currencyTo);
+
     }
 
     private void output() {
-        System.out.println(amount + " " + currencyfrom+" equivale a " + exchageRate * amount + " "+ currencyTo );
+
+        System.out.println(money.getAmount() + " " +money.getCurrency().getSymbol()+" equivale a " + exchageRate.getRate() * money.getAmount() + " "+ currencyTo.getSymbol() );
     }
 
-    private static double getExchangeRate(String from, String to) throws IOException {
-        URL url = new URL("https://api.exchangeratesapi.io/latest?symbols=" + from + "," + to);
-        URLConnection conection = url.openConnection();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(conection.getInputStream()))) {
-            String line = reader.readLine();
-            int lineFind = line.indexOf(to) + 5;
-            String line1 = line.substring(lineFind, lineFind + 5);
-            return Double.parseDouble(line1);
-        }
-    }
+
 
 }
 
