@@ -15,6 +15,7 @@ public class MoneyCalculator {
     public static void main(String[] arg) throws IOException {
         MoneyCalculator money = new MoneyCalculator();
         money.control();
+        
 
     }
 
