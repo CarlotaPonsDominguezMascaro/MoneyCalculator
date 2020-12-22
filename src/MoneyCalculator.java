@@ -7,26 +7,46 @@ import java.net.URLConnection;
 import java.util.Scanner;
 
 /**
- *
  * @author carlotapons
  */
 public class MoneyCalculator {
 
     public static void main(String[] arg) throws IOException {
+        MoneyCalculator money = new MoneyCalculator();
+        money.control();
+
+    }
+
+    double amount;
+    double exchageRate;
+
+    private void control() throws IOException {
+        input();
+        process();
+        output();
+    }
+
+    private void input() {
         System.out.print("introduzca una cantidad en dolares: ");
         Scanner scanner = new Scanner(System.in);
-        double amount = Double.parseDouble(scanner.next());
-        double exchageRate = getExchangeRate("GBP","USD");
-        System.out.println(amount +" $ equivale a "+ exchageRate+" €");
+        amount = Double.parseDouble(scanner.next());
+    }
+
+    private void process() throws IOException {
+        exchageRate = getExchangeRate("GBP", "USD");
+    }
+
+    private void output() {
+        System.out.println(amount + " $ equivale a " + exchageRate * amount + " £");
     }
 
     private static double getExchangeRate(String from, String to) throws IOException {
-        URL url = new URL("https://api.exchangeratesapi.io/latest?symbols="+from +"," +to);
+        URL url = new URL("https://api.exchangeratesapi.io/latest?symbols=" + from + "," + to);
         URLConnection conection = url.openConnection();
-        try(BufferedReader reader = new BufferedReader(new InputStreamReader(conection.getInputStream()))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(conection.getInputStream()))) {
             String line = reader.readLine();
-            int lineFind = line.indexOf(to)+5;
-            String line1 = line.substring(lineFind, lineFind+5);
+            int lineFind = line.indexOf(to) + 5;
+            String line1 = line.substring(lineFind, lineFind + 5);
             return Double.parseDouble(line1);
         }
     }
