@@ -19,6 +19,7 @@ public class MoneyCalculator {
 
     double amount;
     double exchageRate;
+    String currency;
 
     private void control() throws IOException {
         input();
@@ -30,14 +31,17 @@ public class MoneyCalculator {
         System.out.print("introduzca una cantidad en dolares: ");
         Scanner scanner = new Scanner(System.in);
         amount = Double.parseDouble(scanner.next());
+        System.out.print("introduzca divisa ");
+        currency = scanner.next();
+
     }
 
     private void process() throws IOException {
-        exchageRate = getExchangeRate("GBP", "USD");
+        exchageRate = getExchangeRate(currency, "USD");
     }
 
     private void output() {
-        System.out.println(amount + " $ equivale a " + exchageRate * amount + " £");
+        System.out.println(amount + " $ equivale a " + exchageRate * amount + " "+ currency );
     }
 
     private static double getExchangeRate(String from, String to) throws IOException {
