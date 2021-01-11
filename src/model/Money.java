@@ -1,3 +1,5 @@
+package model;
+
 public class Money {
     private double amount;
     private Currency currency;

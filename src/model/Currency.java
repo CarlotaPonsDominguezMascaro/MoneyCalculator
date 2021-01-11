@@ -1,3 +1,5 @@
+package model;
+
 public class Currency {
     private final String code;
     private final String symbol;
@@ -16,6 +18,13 @@ public class Currency {
 
     public String getSymbol() {
         return symbol;
+    }
+
+    @Override
+    public String toString() {
+        return "Currency{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }
 
