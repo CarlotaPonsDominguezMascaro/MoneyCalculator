@@ -1,6 +1,7 @@
 package control;
 
 import Persistance.file.FileExchangeLoader;
+import Persistance.sql.SQLLoader;
 import model.Currency;
 import model.ExchangeRate;
 import model.Money;
@@ -25,7 +26,7 @@ public class ProcessComand implements Comand{
     public void executed() throws IOException {
         Money money = moneyDialogFrom.get();
         Currency currency = moneyDialogTo.get().getCurrency();
-        ExchangeRate exchangeRate = new FileExchangeLoader("ExchangeRate").exchangeLoader(money.getCurrency(),currency);
+        ExchangeRate exchangeRate = new SQLLoader().exchangeLoader(money.getCurrency(),currency);
         Money result = new Money(money.getAmount()* exchangeRate.getRate(),currency);
         moneyDisplay.display(result);
     }

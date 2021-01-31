@@ -5,6 +5,7 @@ import Persistance.CurrencyListLoader;
 import Persistance.ExchangeListLoader;
 import Persistance.file.FileCurrencyLoader;
 import Persistance.file.FileExchangeLoader;
+import Persistance.sql.SQLLoader;
 import control.Comand;
 import control.ProcessComand;
 import model.Currency;
@@ -26,7 +27,7 @@ public class MoneyCalculator extends JFrame {
 
     private final CurrencyListLoader currencyListLoader;
     private final List<Currency> currencies;
-    private final ExchangeListLoader exchangeRateLoader;
+    //private final ExchangeListLoader exchangeRateLoader;
     private MoneyDialog moneyDialogFrom;
     private MoneyDialog moneyDialogTo;
     private MoneyDisplay moneyDisplay;
@@ -46,9 +47,13 @@ public class MoneyCalculator extends JFrame {
         this.setResizable(false);
 
 
-        this.currencyListLoader = new FileCurrencyLoader("Currencies");
-        this.exchangeRateLoader = new FileExchangeLoader("ExchangeRate");
+
+        this.currencyListLoader = new SQLLoader();
+        //this.exchangeRateLoader = new SQLLoader();
+        //this.currencyListLoader = new FileCurrencyLoader("Currencies");
+        //this.exchangeRateLoader = new FileExchangeLoader("ExchangeRate");
         this.currencies = currencyListLoader.currencyLoad();
+
 
         this.add(moneyDialogFrom(), BorderLayout.WEST);
         this.add(toolbar(),BorderLayout.SOUTH);
@@ -69,6 +74,7 @@ public class MoneyCalculator extends JFrame {
 
     private Component moneyDialogFrom(){
         SwingMoneyDialog swingMoneyDialog = new SwingMoneyDialog(currencies,true);
+
         this.moneyDialogFrom = swingMoneyDialog;
         return swingMoneyDialog;
     }
